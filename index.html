@@ -1057,6 +1057,7 @@ function switchTab(tab, btn) {
   document.getElementById('viewInside').classList.toggle('hidden', tab!=='inside');
 }
 
+
 /* ════════════════════════════════
    AI MESSAGE GENERATOR
 ════════════════════════════════ */
@@ -1075,7 +1076,11 @@ async function generateAIMessage() {
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',                        // ← tells the API which version to use
+        'anthropic-dangerous-direct-browser-access': 'true'       // ← unlocks direct browser → API calls
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -1104,7 +1109,6 @@ async function generateAIMessage() {
     btn.disabled = false;
   }
 }
-
 /* ════════════════════════════════
    DOWNLOAD (html2canvas)
 ════════════════════════════════ */
